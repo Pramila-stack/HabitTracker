@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for habit in habits %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+        <p class="card-text">@{{ habit.user.username }}</p>
+        <h5 class="card-title">{{ habit.name }}</h5>
+        <p class="card-text">{{ habit.streak }}</p>
+
+        <!-- Form for MarkDone -->
+         <form action="{% url 'mark-done' habit.pk %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary" {% if habit.last_marked_date == today %}disabled{% endif%}>
+            {% if habit.last_marked_date == today %}Done Today{% else %}Mark Done{% endif %}
+          </button>
+         </form>
+
+         <a href="{% url 'habit-detail' habit.pk %}">View Streak</a>
+
+
+        
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+        <a href="{% url 'habit-create' %}" class="btn btn-secondary">Add New Habits</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

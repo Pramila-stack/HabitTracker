@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <h3>{{ habit.name }}</h3>
+    <p class="text-muted">by @{{ habit.user.username }}</p>
+</div>
+<div class="card-body">
+    <p><strong>Current Streak:</strong>{{ habit.streak }} day{% if habit.streak != 1 %}s{% endif %}</p>
+    <p><strong>Last Marked Date:</strong>
+    {% if habit.last_marked_date %}
+    {{ habit.last_marked_date }}
+    {% else %}
+    Not yet Marked
+    {% endif %}
+    </p>
+</div>
+<a href="{% url 'habit-list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock content %}
