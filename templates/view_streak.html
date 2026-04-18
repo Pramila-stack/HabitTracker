@@ -1,19 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
-    <h3>{{ habit.name }}</h3>
-    <p class="text-muted">by @{{ habit.user.username }}</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 m-3">
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ habit.name }}</h5>
+                <p class="card-text"><strong>Current streak:</strong>{{ habit.streak }} day{% if habit.streak != 1 %}s{% endif %}</p>
+
+                <p><strong>Last Marked Date:</strong>
+                    {% if habit.last_marked_date %}
+                    {{ habit.last_marked_date|date:"M d,Y" }}
+                    {% else %}
+                    Not marked yet.
+                    {% endif %}
+                </p>
+
+                {% if status == "not_started" %}
+                <span class="badge bg-secondary">🆕 Not Started Yet</span>
+
+
+                {% elif status == "completed_today" %}
+                <span class="badge bg-success">✅ Completed Today</span>
+
+                {% elif status == "active" %}
+                <span class="badge bg-primary">🔥 Streak Active</span>
+
+                {% elif status == "broken" %}
+                <span class="badge bg-danger">❌Streak Broken</span>
+
+                {% endif %}
+
+
+
+            </div>
+        </div>
+    </div>
 </div>
-<div class="card-body">
-    <p><strong>Current Streak:</strong>{{ habit.streak }} day{% if habit.streak != 1 %}s{% endif %}</p>
-    <p><strong>Last Marked Date:</strong>
-    {% if habit.last_marked_date %}
-    {{ habit.last_marked_date }}
-    {% else %}
-    Not yet Marked
-    {% endif %}
-    </p>
-</div>
-<a href="{% url 'habit-list' %}" class="btn btn-secondary">Back to List</a>
+<a href="{% url 'habit-list' %}" class="btn btn-outline-danger">Go Back</a>
+
 {% endblock content %}
